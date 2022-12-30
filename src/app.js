@@ -131,7 +131,7 @@ async function main() {
   app.use(bodyParser.json({
     type: "application/vnd.api+json"
   }));
-
+  app.get("/", (req, res) => res.status(200).json('Welcome to the graph'));
   app.use(async (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
     if (!apiKey) {
