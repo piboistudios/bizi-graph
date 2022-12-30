@@ -27,7 +27,7 @@ module.exports = {
    * @throws Can throw an error (APIError or Error) to abort the request
    */
   beforeSave: function (resource, meta, extras, superFn) {
-    if (!resource.relationships.client.some(t => t.id === extras.serverReq.client.id)) {
+    if (resource?.relationships?.client && !resource.relationships.client.some(t => t.id === extras.serverReq.client.id)) {
       logger.debug("mismatched clients:", { reqClient: extras.serverReq.client, resource });
       throw new APIError({
         status: 401,
