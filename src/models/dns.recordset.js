@@ -25,7 +25,7 @@ schema.pre('save', async function (next) {
         zone,
         resourceType
     });
-    if (existing) {
+    if (existing && existing.id !== this.id) {
         return next(new Error("Duplicate record (stub, zone, resourceType)"));
     }
 })
