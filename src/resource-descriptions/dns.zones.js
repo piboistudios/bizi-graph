@@ -4,8 +4,8 @@ const { mkLogger } = require('../logger');
 const logger = mkLogger('resource-descriptions:dns.zones');
 module.exports = {
   urlTemplates: {
-    "self": "http://127.0.0.1:3000/dns.zones/{id}",
-    "relationship": "http://127.0.0.1:3000/dns.zones/{ownerId}/relationships/{path}"
+    "self": process.env.BASE_URI + "/dns.zones/{id}",
+    "relationship": process.env.BASE_URI + "/dns.zones/{ownerId}/relationships/{path}"
   },
   /**
    * An optional function called on each resource provided by the client (i.e.

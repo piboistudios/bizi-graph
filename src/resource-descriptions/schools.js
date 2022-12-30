@@ -1,8 +1,8 @@
 module.exports = {
   parentType: "organizations",
   urlTemplates: {
-    "self": "http://127.0.0.1:3000/schools/{id}",
-    "relationship": "http://127.0.0.1:3000/schools/{ownerId}/relationships/{path}"
+    "self": process.env.BASE_URI + "/schools/{id}",
+    "relationship": process.env.BASE_URI + "/schools/{ownerId}/relationships/{path}"
   },
 
   info: {

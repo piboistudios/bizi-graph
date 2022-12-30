@@ -11,10 +11,10 @@ module.exports = {
     },
     "foo": d => {
       logger.debug("FOO", d);
-      return "http://127.0.0.1:3000/people/foo/bar/baz/qux/quz";
+      return process.env.BASE_URI + "/people/foo/bar/baz/qux/quz";
     },
-    "self": "http://127.0.0.1:3000/people/{id}",
-    "relationship": "http://127.0.0.1:3000/people/{ownerId}/relationships/{path}"
+    "self": process.env.BASE_URI + "/people/{id}",
+    "relationship": process.env.BASE_URI + "/people/{ownerId}/relationships/{path}"
   },
 
   /**
@@ -65,7 +65,7 @@ module.exports = {
     resource.relationships.principalOf = API.Relationship.of({
       links: {
         related: ({ type, ownerId }) =>
-          `http://127.0.0.1:3000/schools?filter=(principal,:eq,\`${ownerId}\`)`
+          process.env.BASE_URI + `/schools?filter=(principal,:eq,\`${ownerId}\`)`
       },
       owner: { type: resource.type, id: resource.id, path: "principalOf" }
     });
