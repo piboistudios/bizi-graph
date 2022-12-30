@@ -254,7 +254,11 @@ async function main() {
 
   // And we're done! Start 'er up!
   console.log('Starting up! Visit 127.0.0.1:3000 to see the docs.');
-  app.listen(3000);
+  const port = process.env.PORT || 8081;
+  const server = app.listen(port);
+  server.on('listening', () => {
+    logger.info("😎 Listening on port", port);
+  });
 
 }
 module.exports = main;

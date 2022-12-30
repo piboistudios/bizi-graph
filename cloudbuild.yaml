@@ -40,6 +40,7 @@ steps:
       - '--set-env="DB_PORT=${_DB_PORT}"'
       - '--set-env="DB_NAME=${_DB_NAME}"'
       - '--set-env="DEBUG_DEPTH=${_DEBUG_DEPTH"'
+      - '--set-env="PORT=8081"'
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "build"
