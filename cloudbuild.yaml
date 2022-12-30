@@ -1,7 +1,6 @@
-
 steps:
   # - name: node
-    # args: ["replace-npmrc", "$PROJECT_ID"]
+  # args: ["replace-npmrc", "$PROJECT_ID"]
   - name: gcr.io/cloud-builders/npm
     args:
       ["run", "artifactregistry-login", "--", '--credential-config="./.npmrc"']
@@ -40,6 +39,7 @@ steps:
       - '--set-env="DB_ADDR=${_DB_ADDR}"'
       - '--set-env="DB_PORT=${_DB_PORT}"'
       - '--set-env="DB_NAME=${_DB_NAME}"'
+      - '--set-env="DEBUG_DEPTH=${_DEBUG_DEPTH"'
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "build"
