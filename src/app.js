@@ -220,13 +220,13 @@ async function main() {
   // routes, check out http://github.com/ethanresnick/express-simple-firewall.
   app.get("/", Front.docsRequest);
   app.route("/:type(people|organizations|schools)")
-    .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler);
+    .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
   app.route("/:type(people|organizations|schools)/:id")
     .get(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
   app.route("/:type(people|organizations|schools)/:id/relationships/:relationship")
     .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
   app.route("/:type(clients|dns.recordsets|dns.zones)")
-    .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler);
+    .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
   app.route("/:type(clients|dns.recordsets|dns.zones)/:id")
     .get(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
   app.route("/:type(clients|dns.recordsets|dns.zones)/:id/relationships/:relationship")
