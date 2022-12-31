@@ -121,7 +121,7 @@ async function main() {
   var Docs = new API.controllers.Documentation(registry, { name: 'Example API' });
 
   // tell the lib the host name your API is served from; needed for security.
-  var opts = { host: process.env.BASE_URI };
+  var opts = { host: new URL(process.env.BASE_URI).hostname };
 
   // Initialize the express app + front controller.
   var app = express();

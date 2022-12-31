@@ -1,6 +1,6 @@
 module.exports = {
   urlTemplates: {
-    "self": process.env.BASE_URI + "/clients/{id}",
-    "relationship": process.env.BASE_URI + "/clients/{ownerId}/relationships/{path}"
+    "self": "/clients/{id}",
+    "relationship": "/clients/{ownerId}/relationships/{path}"
   }
 }
