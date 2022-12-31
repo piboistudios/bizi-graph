@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
 
 var schema = new mongoose.Schema({
     stub: String,
-    zone: { ref: "DnsZone", type: ObjectId },
+    zone: { ref: "dns.Zone", type: ObjectId },
     resourceType: {
         type: String,
         enum: ['A','AAAA','MX','CNAME','SOA','SRV','TXT', 'NS']
