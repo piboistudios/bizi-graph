@@ -153,8 +153,10 @@ async function main() {
   }));
   app.use((req, res, next) => {
     if(req?.query?.filter) {
-      req.query.filter = req.query.filter.replace(/(%60)/gi, '`');
+      logger.debug("Updating query:", );
+      req.url = req.url.replace(/(%60)/gi, '`');
     }
+    
     next();
   })
   app.get("/", (req, res) => res.status(200).json('Welcome to the graph'));
