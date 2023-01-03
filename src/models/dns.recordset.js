@@ -7,7 +7,7 @@ var schema = new mongoose.Schema({
     zone: { ref: "dns.Zone", type: ObjectId },
     resourceType: {
         type: String,
-        enum: ['A','AAAA','MX','CNAME','SOA','SRV','TXT', 'NS']
+        enum: ['A', 'AAAA', 'MX', 'CNAME', 'SOA', 'SRV', 'TXT', 'NS']
     },
     ttl: Number,
     records: [{ value: String, weight: Number }],

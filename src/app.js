@@ -95,24 +95,40 @@ async function main() {
     School: require('./models/school')(OrganizationModel, OrganizationSchema),
     Client: require('./models/client'),
     "dns.Recordset": require('./models/dns.recordset'),
-    "dns.Zone": require('./models/dns.zone')
+    "dns.Zone": require('./models/dns.zone'),
+    "gate.Registration": require('./models/gate.registration'),
+    "gate.VirtualHost": require('./models/gate.virtual-host'),
+    File: require('./models/file')
+
   }
   const pluralize = require('pluralize');
   const dashify = require('dashify');
+  const urlTemplates = {
+    basic: (type) => ({
+      urlTemplates: {
+        "self": "/" + type + "/{id}",
+        "relationship": "/" + type + "/{ownerId}/relationships/{path}"
+      }
+    }
+    )
+  }
   // And registering them with the json-api library.
   // Below, we load up every resource type and give each the same adapter; in
   // theory, though, different types could be powered by different dbs/adapters.
   // Check /resource-desciptions/school.js to see some of the advanced features.
   var adapter = new API.dbAdapters.Mongoose(models, m => pluralize(m
-    .replace(/[a-z]([A-Z])/g, "-$1")
+    .replace(/([a-z])([A-Z])/g, "$1-$2")
     .toLowerCase()));
   var registry = new API.ResourceTypeRegistry({
     people: require('./resource-descriptions/people'),
     organizations: require('./resource-descriptions/organizations'),
     schools: require('./resource-descriptions/schools'),
     clients: require('./resource-descriptions/clients'),
-    "dns.recordsets": require('./resource-descriptions/dns.recordsets'),
-    "dns.zones": require('./resource-descriptions/dns.zones')
+    "dns.recordsets": urlTemplates.basic("dns.recordsets"),
+    "dns.zones": urlTemplates.basic("dns.zones"),
+    "gate.registrations": urlTemplates.basic("gate.registrations"),
+    "gate.virtual-hosts": urlTemplates.basic("gate.virtual-hosts"),
+
   }, { dbAdapter: adapter });
 
   var Controller = new API.controllers.API(registry);
@@ -121,7 +137,11 @@ async function main() {
   var Docs = new API.controllers.Documentation(registry, { name: 'Example API' });
 
   // tell the lib the host name your API is served from; needed for security.
-  var opts = { host: new URL(process.env.BASE_URI).hostname };
+  const baseUrl = new URL(process.env.BASE_URI);
+  let host = baseUrl.hostname;
+  // if(baseUrl.protocol) host += protocol 
+  if (baseUrl.port) host += ':' + baseUrl.port;
+  var opts = { host: host.toString() };
 
   // Initialize the express app + front controller.
   var app = express();
@@ -131,6 +151,11 @@ async function main() {
   app.use(bodyParser.json({
     type: "application/vnd.api+json"
   }));
+  app.use((req, res, next) => {
+    if(req?.query?.filter) {
+      req.query.filter = req.query.filter.replace(/(%60)/gi, '`');
+    }
+  })
   app.get("/", (req, res) => res.status(200).json('Welcome to the graph'));
   app.use(async (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
@@ -225,11 +250,11 @@ async function main() {
     .get(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
   app.route("/:type(people|organizations|schools)/:id/relationships/:relationship")
     .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
-  app.route("/:type(clients|dns.recordsets|dns.zones)")
+  app.route("/:type(clients|dns.recordsets|dns.zones|gate.registrations|gate.virtual-hosts)")
     .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
-  app.route("/:type(clients|dns.recordsets|dns.zones)/:id")
+  app.route("/:type(clients|dns.recordsets|dns.zones|gate.registrations|gate.virtual-hosts)/:id")
     .get(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
-  app.route("/:type(clients|dns.recordsets|dns.zones)/:id/relationships/:relationship")
+  app.route("/:type(clients|dns.recordsets|dns.zones|gate.registrations|gate.virtual-hosts)/:id/relationships/:relationship")
     .get(apiReqHandler).post(apiReqHandler).patch(apiReqHandler).delete(apiReqHandler);
 
 
