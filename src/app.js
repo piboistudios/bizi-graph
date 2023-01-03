@@ -155,6 +155,7 @@ async function main() {
     if(req?.query?.filter) {
       req.query.filter = req.query.filter.replace(/(%60)/gi, '`');
     }
+    next();
   })
   app.get("/", (req, res) => res.status(200).json('Welcome to the graph'));
   app.use(async (req, res, next) => {
