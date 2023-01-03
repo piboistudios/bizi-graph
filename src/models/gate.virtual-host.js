@@ -59,7 +59,10 @@ schema.pre('save', async function (next) {
                 headers: {
                     'X-Api-Key': process.env.GATE_API_KEY
                 }
-            });
+            })
+                .catch(e => {
+                    
+                })
         }, 1000);
     }
 })
