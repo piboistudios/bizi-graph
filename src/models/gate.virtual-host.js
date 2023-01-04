@@ -18,7 +18,7 @@ const httpsAgent = new HttpsAgent({ rejectUnauthorized: false })
 schema.pre('save', async function (next) {
     if (this.key && this.cert) return;
     try {
-        
+
         !this.populated('zone') && await this.populate('zone');
         const hostname = [this.stub, this.zone.dnsName].map(Boolean).join('.');
         const attrs = [{ name: 'commonName', value: hostname }];
@@ -61,7 +61,7 @@ schema.pre('save', async function (next) {
                 }
             })
                 .catch(e => {
-                    
+                    logger.error("Unable to complete virtual-host registration:", e);
                 })
         }, 1000);
     }
