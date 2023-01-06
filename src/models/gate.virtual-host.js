@@ -22,7 +22,7 @@ schema.pre('save', async function (next) {
     try {
 
         !this.populated('zone') && await this.populate('zone');
-        const hostname = [this.stub, this.zone.dnsName].map(Boolean).join('.');
+        const hostname = [this.stub, this.zone.dnsName].filter(Boolean).join('.');
         const attrs = [{ name: 'commonName', value: hostname }];
         /**@type {import('selfsigned').PEMS} */
         const pems = await new Promise((resolve, reject) => selfsigned.generate(attrs, { days: 90 }, (err, pems) => {
