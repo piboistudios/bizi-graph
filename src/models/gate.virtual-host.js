@@ -2,6 +2,8 @@
 var mongoose = require('mongoose')
     , ObjectId = mongoose.Schema.Types.ObjectId;
 var selfsigned = require('selfsigned');
+const { mkLogger } = require('../logger')
+const logger = mkLogger('gate.virtual-host');
 /**@type {import('axios').AxiosStatic} */
 const axios = require('axios');
 const File = require('./file');
