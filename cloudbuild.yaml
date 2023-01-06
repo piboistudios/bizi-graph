@@ -42,6 +42,8 @@ steps:
       - '--set-env="DB_AUTH_SOURCE=${_DB_AUTH_SOURCE}"'
       - '--set-env="DEBUG_DEPTH=${_DEBUG_DEPTH"'
       - '--set-env="BASE_URI=${_BASE_URI}"'
+      - '--set-env="GATE_URI=${_GATE_URI}"'
+      - '--set-env="GATE_API_KEY=${_GATE_API_KEY}"'
       - '--set-env="PORT=8081"'
   - name: "gcr.io/cloud-builders/docker"
     args:

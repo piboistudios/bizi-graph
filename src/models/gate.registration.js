@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
     , ObjectId = mongoose.Schema.Types.ObjectId;
 /**@type {import('axios').AxiosStatic} */
 const axios = require('axios');
+const logger = mkLogger('gate.virtual-host');
 
 var schema = new mongoose.Schema({
     dest: {
